@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { AuthCard } from '@/components/shared/AuthCard'
 
 const registerSchema = z
   .object({
@@ -53,60 +54,52 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="w-full max-w-md p-8 border border-border rounded-2xl bg-card shadow-lg">
-        <h1 className="text-2xl font-bold mb-1">Создать аккаунт</h1>
-        <p className="text-muted-foreground text-sm mb-6">Зарегистрируйтесь в FlowBoard</p>
-
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-          <div>
-            <Input placeholder="Ваше имя" {...register('displayName')} />
-            {errors.displayName && (
-              <p className="text-destructive text-xs mt-1">{errors.displayName.message}</p>
-            )}
-          </div>
-
-          <div>
-            <Input placeholder="Email" type="email" {...register('email')} />
-            {errors.email && (
-              <p className="text-destructive text-xs mt-1">{errors.email.message}</p>
-            )}
-          </div>
-
-          <div>
-            <Input placeholder="Пароль" type="password" {...register('password')} />
-            {errors.password && (
-              <p className="text-destructive text-xs mt-1">{errors.password.message}</p>
-            )}
-          </div>
-
-          <div>
-            <Input
-              placeholder="Подтвердите пароль"
-              type="password"
-              {...register('confirmPassword')}
-            />
-            {errors.confirmPassword && (
-              <p className="text-destructive text-xs mt-1">{errors.confirmPassword.message}</p>
-            )}
-          </div>
-
-          {errors.root && (
-            <p className="text-destructive text-sm text-center">{errors.root.message}</p>
+    <AuthCard
+      title="Создать аккаунт"
+      subtitle="Зарегистрируйтесь в FlowBoard"
+      footerText="Уже есть аккаунт?"
+      footerLinkText="Войти"
+      footerLinkHref="/login"
+    >
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+        <div>
+          <Input placeholder="Ваше имя" {...register('displayName')} />
+          {errors.displayName && (
+            <p className="text-destructive text-xs mt-1">{errors.displayName.message}</p>
           )}
+        </div>
 
-          <Button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? 'Регистрация...' : 'Зарегистрироваться'}
-          </Button>
-        </form>
+        <div>
+          <Input placeholder="Email" type="email" {...register('email')} />
+          {errors.email && <p className="text-destructive text-xs mt-1">{errors.email.message}</p>}
+        </div>
 
-        <p className="text-center text-sm text-muted-foreground mt-4">
-          Уже есть аккаунт?{' '}
-          <a href="/login" className="text-primary hover:underline">
-            Войти
-          </a>
-        </p>
-      </div>
-    </div>
+        <div>
+          <Input placeholder="Пароль" type="password" {...register('password')} />
+          {errors.password && (
+            <p className="text-destructive text-xs mt-1">{errors.password.message}</p>
+          )}
+        </div>
+
+        <div>
+          <Input
+            placeholder="Подтвердите пароль"
+            type="password"
+            {...register('confirmPassword')}
+          />
+          {errors.confirmPassword && (
+            <p className="text-destructive text-xs mt-1">{errors.confirmPassword.message}</p>
+          )}
+        </div>
+
+        {errors.root && (
+          <p className="text-destructive text-sm text-center">{errors.root.message}</p>
+        )}
+
+        <Button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? 'Регистрация...' : 'Зарегистрироваться'}
+        </Button>
+      </form>
+    </AuthCard>
   )
 }
