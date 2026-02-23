@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import Providers from '@/providers/query-provider'
+import { ThemeProvider } from '@/providers/theme-provider'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -10,10 +11,17 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body>
         <Providers>
-          <TooltipProvider>{children}</TooltipProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <TooltipProvider>{children}</TooltipProvider>
+          </ThemeProvider>
         </Providers>
       </body>
     </html>
